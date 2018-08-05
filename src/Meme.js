@@ -35,11 +35,13 @@ class Meme extends Component {
                   <span className="meme-adopted">Not Looted</span>
                   <br />
                   <br />
+                  <br />
                 </div>
               ) : (
                 <div>
-                  <div className="meme-adopted">Looted</div>
-                  <div>Owner: {this.props.looted.ownerAddress}</div>
+                  <div className="word-limit">
+                    Owner: {this.props.looted.ownerAddress}
+                  </div>
                 </div>
               )}
             </div>

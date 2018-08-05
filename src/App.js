@@ -25,23 +25,23 @@ class App extends Component {
     this.handleLoot = this.handleLoot.bind(this);
   }
 
-  async componentDidMount() {
-    // TRY PERFORMING AN ASYNC AWAIT ON SETSTATE IN COMPONENTWILLMOUNT
-    console.log('adoptionInstance', this.state.adoptionInstance);
-    const adopters = await this.state.adoptionInstance.getAdopters.call();
+  // async componentDidMount() {
+  //   console.log('adoptionInstance', this.state.adoptionInstance);
+  //   const adopters = await this.state.adoptionInstance.getAdopters.call();
+  //   console.log('adopters', adopters);
 
-    const looted = [];
+  //   const looted = [];
 
-    for (let i = 0; i < adopters.length; i++) {
-      if (adopters[i] === '0x0000000000000000000000000000000000000000') {
-        looted.push({ status: false });
-      } else {
-        looted.push({ status: true, ownerAddress: adopters[i] });
-      }
-    }
+  //   for (let i = 0; i < adopters.length; i++) {
+  //     if (adopters[i] === '0x0000000000000000000000000000000000000000') {
+  //       looted.push({ status: false });
+  //     } else {
+  //       looted.push({ status: true, ownerAddress: adopters[i] });
+  //     }
+  //   }
 
-    this.setState({ memes: jsonMemes, looted });
-  }
+  //   this.setState({ memes: jsonMemes, looted });
+  // }
 
   componentWillMount() {
     // Get network provider and web3 instance.
@@ -99,7 +99,33 @@ class App extends Component {
 
       adoption.deployed().then(instance => {
         adoptionInstance = instance;
-        return this.setState({ adoptionInstance });
+
+        adoptionInstance.getAdopters
+          .call()
+          .then(adopters => {
+            return adopters;
+          })
+          .then(adopters => {
+            const looted = [];
+
+            for (let i = 0; i < adopters.length; i++) {
+              if (
+                adopters[i] === '0x0000000000000000000000000000000000000000'
+              ) {
+                looted.push({ status: false });
+              } else {
+                looted.push({ status: true, ownerAddress: adopters[i] });
+              }
+            }
+
+            console.log('looted', looted);
+
+            return this.setState({
+              memes: jsonMemes,
+              looted,
+              adoptionInstance,
+            });
+          });
       });
     });
   }
@@ -125,8 +151,6 @@ class App extends Component {
       console.log('All the memes are taken!');
       return null;
     }
-
-    console.log('ADOPTERS: ', adopters);
 
     // Execute adopt as a transaction by sending account
     return await this.state.adoptionInstance.adopt(randomMemeId, {
