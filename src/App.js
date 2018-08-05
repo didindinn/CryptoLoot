@@ -17,28 +17,40 @@ class App extends Component {
 
     this.state = {
       memes: [],
-      storageValue: 0,
+      looted: [],
       web3: null,
       adoptionInstance: null,
+      storageValue: 0,
     };
-    this.markLooted = this.markLooted.bind(this);
     this.handleLoot = this.handleLoot.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ memes: jsonMemes });
+  async componentDidMount() {
+    // TRY PERFORMING AN ASYNC AWAIT ON SETSTATE IN COMPONENTWILLMOUNT
+    console.log('adoptionInstance', this.state.adoptionInstance);
+    const adopters = await this.state.adoptionInstance.getAdopters.call();
+
+    const looted = [];
+
+    for (let i = 0; i < adopters.length; i++) {
+      if (adopters[i] === '0x0000000000000000000000000000000000000000') {
+        looted.push({ status: false });
+      } else {
+        looted.push({ status: true, ownerAddress: adopters[i] });
+      }
+    }
+
+    this.setState({ memes: jsonMemes, looted });
   }
 
   componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
-
     getWeb3
       .then(results => {
         this.setState({
           web3: results.web3,
         });
-
         // Instantiate contract once web3 provided.
         this.instantiateContract();
       })
@@ -66,7 +78,7 @@ class App extends Component {
     var simpleStorageInstance;
     var adoptionInstance;
 
-    // // Get accounts.
+    // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       simpleStorage
         .deployed()
@@ -92,32 +104,10 @@ class App extends Component {
     });
   }
 
-  // BIND THE THIS CONTEXT
-  async markLooted(adopters, account) {
-    const adoptersArray = await this.state.adoptionInstance.getAdopters.call();
-
-    // for (let i = 0; i < adopters.length; i++) {
-    //   if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-    //     $('.panel-meme')
-    //       .eq(i)
-    //       .find('.meme-adopted')
-    //       .text('Looted');
-    //   }
-    // }
-
-    // hold the adoption status in the state
-    console.log('ADOPTERS: ', adoptersArray);
-
-    console.log('ACCOUNT: ', this.state.web3.eth.accounts[0]);
-
-    return adopters;
-  }
-
   async handleLoot(event) {
     event.preventDefault();
 
     const account = this.state.web3.eth.accounts[0];
-
     const adopters = await this.state.adoptionInstance.getAdopters.call();
 
     const remainingMemes = [];
@@ -130,6 +120,11 @@ class App extends Component {
 
     const randomMemeId =
       remainingMemes[Math.floor(Math.random() * remainingMemes.length)];
+
+    if (randomMemeId === undefined) {
+      console.log('All the memes are taken!');
+      return null;
+    }
 
     console.log('ADOPTERS: ', adopters);
 
@@ -173,7 +168,7 @@ class App extends Component {
                 {this.state.memes.map(meme => {
                   return (
                     <div key={meme.id} className="col-4">
-                      <Meme meme={meme} looted={true} />
+                      <Meme meme={meme} looted={this.state.looted[meme.id]} />
                     </div>
                   );
                 })}

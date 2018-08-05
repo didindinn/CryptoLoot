@@ -7,7 +7,6 @@ contract Adoption {
     function adopt(uint memeId) public returns (uint) {
         require(memeId >= 0 && memeId <= 15);
         adopters[memeId] = msg.sender;
-
         return memeId;
     }
 

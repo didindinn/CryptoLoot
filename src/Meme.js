@@ -30,10 +30,17 @@ class Meme extends Component {
               <span className="meme-rarity">{meme.rarity}</span>
               <br />
               <br />
-              {!this.props.looted ? (
-                <span className="meme-adopted">Not Looted</span>
+              {!this.props.looted.status ? (
+                <div>
+                  <span className="meme-adopted">Not Looted</span>
+                  <br />
+                  <br />
+                </div>
               ) : (
-                <span className="meme-adopted">Looted</span>
+                <div>
+                  <div className="meme-adopted">Looted</div>
+                  <div>Owner: {this.props.looted.ownerAddress}</div>
+                </div>
               )}
             </div>
           </div>
