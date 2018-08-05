@@ -117,11 +117,3 @@ img {
     transform: translate(1px, -2px) rotate(-1deg);
   }
 }
-
-.display-none {
-  display: none;
-}
-
-.width-100 {
-  width: 100%;
-}

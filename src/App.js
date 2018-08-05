@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SimpleStorageContract from '../build/contracts/SimpleStorage.json';
+import AdoptionContract from '../build/contracts/Adoption.json';
 import getWeb3 from './utils/getWeb3';
 
 import './css/oswald.css';
@@ -18,7 +19,10 @@ class App extends Component {
       memes: [],
       storageValue: 0,
       web3: null,
+      adoptionInstance: null,
     };
+    this.markLooted = this.markLooted.bind(this);
+    this.handleLoot = this.handleLoot.bind(this);
   }
 
   componentDidMount() {
@@ -55,10 +59,14 @@ class App extends Component {
     const simpleStorage = contract(SimpleStorageContract);
     simpleStorage.setProvider(this.state.web3.currentProvider);
 
+    const adoption = contract(AdoptionContract);
+    adoption.setProvider(this.state.web3.currentProvider);
+
     // Declaring this for later so we can chain functions on SimpleStorage.
     var simpleStorageInstance;
+    var adoptionInstance;
 
-    // Get accounts.
+    // // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       simpleStorage
         .deployed()
@@ -76,6 +84,58 @@ class App extends Component {
           // Update state with the result.
           return this.setState({ storageValue: result.c[0] });
         });
+
+      adoption.deployed().then(instance => {
+        adoptionInstance = instance;
+        return this.setState({ adoptionInstance });
+      });
+    });
+  }
+
+  // BIND THE THIS CONTEXT
+  async markLooted(adopters, account) {
+    const adoptersArray = await this.state.adoptionInstance.getAdopters.call();
+
+    // for (let i = 0; i < adopters.length; i++) {
+    //   if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
+    //     $('.panel-meme')
+    //       .eq(i)
+    //       .find('.meme-adopted')
+    //       .text('Looted');
+    //   }
+    // }
+
+    // hold the adoption status in the state
+    console.log('ADOPTERS: ', adoptersArray);
+
+    console.log('ACCOUNT: ', this.state.web3.eth.accounts[0]);
+
+    return adopters;
+  }
+
+  async handleLoot(event) {
+    event.preventDefault();
+
+    const account = this.state.web3.eth.accounts[0];
+
+    const adopters = await this.state.adoptionInstance.getAdopters.call();
+
+    const remainingMemes = [];
+
+    for (let i = 0; i < adopters.length; i++) {
+      if (adopters[i] === '0x0000000000000000000000000000000000000000') {
+        remainingMemes.push(i);
+      }
+    }
+
+    const randomMemeId =
+      remainingMemes[Math.floor(Math.random() * remainingMemes.length)];
+
+    console.log('ADOPTERS: ', adopters);
+
+    // Execute adopt as a transaction by sending account
+    return await this.state.adoptionInstance.adopt(randomMemeId, {
+      from: account,
     });
   }
 
@@ -103,8 +163,9 @@ class App extends Component {
                 className="btn btn-default btn-adopt"
                 type="submit"
                 data-id="0"
+                onClick={this.handleLoot}
               >
-                <a href="loot.html">Loot!</a>
+                <a>Loot!</a>
               </button>
               <br />
               <br />
@@ -112,7 +173,7 @@ class App extends Component {
                 {this.state.memes.map(meme => {
                   return (
                     <div key={meme.id} className="col-4">
-                      <Meme meme={meme} />
+                      <Meme meme={meme} looted={true} />
                     </div>
                   );
                 })}
