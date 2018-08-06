@@ -11,12 +11,16 @@ class About extends Component {
         <br />
         <br />
         <br />
-        <h1>Blockchain + Loot Boxes + Memes = CryptoLoot</h1>
+        <h1>
+          <center>Blockchain + Loot Boxes + Memes = CryptoLoot</center>
+        </h1>
         <hr />
         <font>
-          CryptoLoot is an exchange built on the Ethereum blockchain that allows
-          for users to collect and have digital ownership of memes by securing
-          their ownership on the Ethereum network.
+          <center className="left-right-padding">
+            CryptoLoot is an exchange built on the Ethereum blockchain that
+            allows for users to collect and have digital ownership of memes by
+            securing their ownership on the Ethereum network.
+          </center>
         </font>
         <div className="container">
           <h3>Built Using</h3>

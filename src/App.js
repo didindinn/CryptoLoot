@@ -129,7 +129,9 @@ class App extends Component {
         <div>
           <br />
           <br />
-          <h1>Please Wait...</h1>
+          <h1>
+            <center>Please Wait...</center>
+          </h1>
         </div>
       );
     } else {
@@ -154,7 +156,7 @@ class App extends Component {
                 <br />
                 <br />
                 <button
-                  className="btn btn-default btn-adopt"
+                  className="btn btn-warning btn-adopt"
                   type="submit"
                   onClick={this.handleLoot}
                 >

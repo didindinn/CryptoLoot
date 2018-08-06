@@ -5,8 +5,6 @@ import jsonMemes from './memes.js';
 import AdoptionContract from '../build/contracts/Adoption.json';
 import getWeb3 from './utils/getWeb3';
 
-// MAY NEED TO IMPORT CSS STYLES
-
 /**
  * COMPONENT
  */
@@ -84,24 +82,36 @@ class Marketplace extends Component {
   }
 
   render() {
-    return (
-      <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-            <br />
-            <div className="row">
-              {this.state.memes.map(meme => {
-                return (
-                  <div key={meme.id} className="col-4">
-                    <Meme meme={meme} looted={this.state.looted[meme.id]} />
-                  </div>
-                );
-              })}
+    if (this.state.memes.length === 0) {
+      return (
+        <div>
+          <br />
+          <br />
+          <h1>
+            <center>Please Wait...</center>
+          </h1>
+        </div>
+      );
+    } else {
+      return (
+        <main className="container">
+          <div className="pure-g">
+            <div className="pure-u-1-1">
+              <br />
+              <div className="row">
+                {this.state.memes.map(meme => {
+                  return (
+                    <div key={meme.id} className="col-4">
+                      <Meme meme={meme} looted={this.state.looted[meme.id]} />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    );
+        </main>
+      );
+    }
   }
 }
 

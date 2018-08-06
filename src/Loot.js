@@ -53,9 +53,8 @@ class Loot extends Component {
             <br />
           </div>
         </div>
-
-        <Link to="/" className="btn btn-default btn-adopt">
-          Back To Memes!
+        <Link to="/" className="btn btn-success btn-adopt">
+          Back To Looting!
         </Link>
       </div>
     );
