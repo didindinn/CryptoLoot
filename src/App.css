@@ -122,3 +122,19 @@ img {
   width: 295px;
   word-wrap: break-word;
 }
+
+.Common {
+  color: green;
+}
+
+.Rare {
+  color: blue;
+}
+
+.Epic {
+  color: purple;
+}
+
+.Legendary {
+  color: orange;
+}

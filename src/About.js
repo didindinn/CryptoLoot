@@ -16,8 +16,8 @@ class About extends Component {
           for users to have digital ownership of memes by securing their
           ownership on the blockchain.
         </p>
-        <h3>Built Using</h3>
         <div className="container">
+          <h3>Built Using</h3>
           <img
             alt="Metamask Icon"
             src={`http://localhost:3000/images/Metamask-Icon.png`}

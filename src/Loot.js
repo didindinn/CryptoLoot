@@ -45,7 +45,9 @@ class Loot extends Component {
             <br />
             <br />
             <strong>Rarity: </strong>
-            <span className="meme-rarity">{this.state.meme.rarity}</span>
+            <span className={`meme-rarity ${this.state.meme.rarity}`}>
+              {this.state.meme.rarity}
+            </span>
             <br />
             <br />
           </div>
