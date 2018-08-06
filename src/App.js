@@ -138,6 +138,12 @@ class App extends Component {
           <main className="container">
             <div className="pure-g">
               <div className="pure-u-1-1">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <img
                   alt="LootBox"
                   className="loot-img"
