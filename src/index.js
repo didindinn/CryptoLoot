@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import history from './history';
 import Routes from './Routes';
-import App from './App';
+import Navbar from './Navbar';
 
 ReactDOM.render(
   <Router history={history}>
     <div>
+      <Navbar />
       <Routes />
-      <App />
     </div>
   </Router>,
   document.getElementById('root')
