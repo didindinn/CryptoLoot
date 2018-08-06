@@ -12,11 +12,11 @@ class Navbar extends Component {
         <Link to="/" className="pure-menu-heading pure-menu-link">
           CryptoLoot
         </Link>
-        <Link to="/about" className="pure-menu-heading pure-menu-link">
-          About
-        </Link>
         <Link to="/marketplace" className="pure-menu-heading pure-menu-link">
           Marketplace
+        </Link>
+        <Link to="/about" className="pure-menu-heading pure-menu-link">
+          About
         </Link>
       </nav>
     );

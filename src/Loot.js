@@ -24,11 +24,12 @@ class Loot extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container loot-page">
         <br />
         <br />
         <h1>Congratulations!</h1>
         <h3>You are now the proud owner of:</h3>
+        <br />
         <div className="panel panel-default panel-meme">
           <div className="panel-heading">
             <h3 className="panel-title">{this.state.meme.name}</h3>

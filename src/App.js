@@ -8,7 +8,6 @@ import './css/open-sans.css';
 import './css/pure-min.css';
 import './App.css';
 
-import Meme from './Meme.js';
 import jsonMemes from './memes.js';
 
 class App extends Component {
@@ -148,7 +147,6 @@ class App extends Component {
                 />
                 <br />
                 <br />
-
                 <button
                   className="btn btn-default btn-adopt"
                   type="submit"
@@ -156,18 +154,6 @@ class App extends Component {
                 >
                   Loot!
                 </button>
-
-                <br />
-                <br />
-                <div className="row">
-                  {this.state.memes.map(meme => {
-                    return (
-                      <div key={meme.id} className="col-4">
-                        <Meme meme={meme} looted={this.state.looted[meme.id]} />
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
             </div>
           </main>

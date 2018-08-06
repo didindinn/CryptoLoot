@@ -7,8 +7,16 @@ body,
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+font {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-size: 40px;
 }
 
 code {
@@ -137,4 +145,13 @@ img {
 
 .Legendary {
   color: orange;
+}
+
+.icon-padding {
+  padding: 2vw;
+}
+
+.loot-page {
+  height: 400px;
+  width: 400px;
 }
