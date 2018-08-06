@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import SimpleStorageContract from '../build/contracts/SimpleStorage.json';
 import AdoptionContract from '../build/contracts/Adoption.json';
 import getWeb3 from './utils/getWeb3';
@@ -18,30 +19,13 @@ class App extends Component {
     this.state = {
       memes: [],
       looted: [],
+      memeId: 0,
       web3: null,
       adoptionInstance: null,
       storageValue: 0,
     };
     this.handleLoot = this.handleLoot.bind(this);
   }
-
-  // async componentDidMount() {
-  //   console.log('adoptionInstance', this.state.adoptionInstance);
-  //   const adopters = await this.state.adoptionInstance.getAdopters.call();
-  //   console.log('adopters', adopters);
-
-  //   const looted = [];
-
-  //   for (let i = 0; i < adopters.length; i++) {
-  //     if (adopters[i] === '0x0000000000000000000000000000000000000000') {
-  //       looted.push({ status: false });
-  //     } else {
-  //       looted.push({ status: true, ownerAddress: adopters[i] });
-  //     }
-  //   }
-
-  //   this.setState({ memes: jsonMemes, looted });
-  // }
 
   componentWillMount() {
     // Get network provider and web3 instance.
@@ -118,8 +102,6 @@ class App extends Component {
               }
             }
 
-            console.log('looted', looted);
-
             return this.setState({
               memes: jsonMemes,
               looted,
@@ -131,7 +113,7 @@ class App extends Component {
   }
 
   async handleLoot(event) {
-    event.preventDefault();
+    // event.preventDefault();
 
     const account = this.state.web3.eth.accounts[0];
     const adopters = await this.state.adoptionInstance.getAdopters.call();
@@ -152,6 +134,9 @@ class App extends Component {
       return null;
     }
 
+    // MAKE SURE THAT IT'S MARKED AS LOOTED RIGHT AFTER YOU PURCHASE IT
+    this.setState({ memeId: randomMemeId });
+
     // Execute adopt as a transaction by sending account
     return await this.state.adoptionInstance.adopt(randomMemeId, {
       from: account,
@@ -162,9 +147,15 @@ class App extends Component {
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal">
-          <a href="#" className="pure-menu-heading pure-menu-link">
+          <Link to="/" className="pure-menu-heading pure-menu-link">
             CryptoLoot
-          </a>
+          </Link>
+          <Link to="/about" className="pure-menu-heading pure-menu-link">
+            About
+          </Link>
+          <Link to="/marketplace" className="pure-menu-heading pure-menu-link">
+            Marketplace
+          </Link>
         </nav>
         <main className="container">
           <div className="pure-g">
@@ -178,14 +169,16 @@ class App extends Component {
               />
               <br />
               <br />
-              <button
+
+              <Link
+                to={`/loot/${this.state.memeId}`}
                 className="btn btn-default btn-adopt"
                 type="submit"
-                data-id="0"
                 onClick={this.handleLoot}
               >
-                <a>Loot!</a>
-              </button>
+                Loot!
+              </Link>
+
               <br />
               <br />
               <div className="row">
