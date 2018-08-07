@@ -111,9 +111,7 @@ class App extends Component {
       return null;
     }
 
-    // MAKE SURE THAT IT'S MARKED AS LOOTED RIGHT AFTER YOU PURCHASE IT
     this.setState({ memeId: randomMemeId });
-    // MAKE SURE THAT IT'S MARKED AS LOOTED RIGHT AFTER YOU PURCHASE IT
 
     // Execute adopt as a transaction by sending account
     await this.state.adoptionInstance.adopt(randomMemeId, {
